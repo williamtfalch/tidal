@@ -10,3 +10,7 @@ I added two implementations, one using a hoc-ish system, aptly named hocish. The
 - Error handling
 - Handle pagination where res includes more than 5 results with regard to artist search and album list
 - Responsive css
+
+## If errors
+- Most likely: I used a proxy for development. Go to this link and request access: https://cors-anywhere.herokuapp.com/
+- Less likely: You are getting a 429 in the console. I guess you'll have to wait for the quota to refresh.
