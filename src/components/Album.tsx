@@ -1,11 +1,8 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query/react";
 import { useRef } from "react";
 import styled from "styled-components"
-import { ITrack, IAlbum } from '../api/deezer'
-
-interface IAlbumProps {
-  album:IAlbum,
-  trackList:ITrack[]
-}
+import { ITrack, IAlbum, useGetAlbumTrackListQuery } from '../api/deezer'
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 const StyledAlbum = styled.div`
   display: flex;
@@ -55,36 +52,44 @@ const StyledAlbum = styled.div`
   }
 `;
 
-function Album({album, trackList}:IAlbumProps) {
+function Album() {
+  const album                      = useAppSelector((state) => state.app.album)
+  const { data, isLoading, error } = useGetAlbumTrackListQuery(album ? album.id : skipToken)
+
   return (
     <StyledAlbum>
-      <h3>{album.title}</h3>
-      <img alt="album cover" src={album.cover_medium} />
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Artist</th>
-            <th>Time</th>
-            <th>Released</th>
-          </tr>
-        </thead>
-
-        <tbody>
-            {
-              trackList.map((song, i) => (
-                <tr key={song.id}>
-                  <td>{i + 1}</td>
-                  <td>{song.title}</td>
-                  <td>{song.artist.name}</td>
-                  <td>{`${Math.floor(song.duration/60)}:${song.duration%60}`}</td>
-                  <td>{new Date(album.release_date).getFullYear()}</td>
+      {
+        album && data &&
+          <>
+            <h3>{album.title}</h3>
+            <img alt="album cover" src={album.cover_medium} />
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Artist</th>
+                  <th>Time</th>
+                  <th>Released</th>
                 </tr>
-              ))
-            }
-          </tbody>
-      </table>
+              </thead>
+
+              <tbody>
+                  {
+                    (data as unknown as ITrack[]).map((track, i) => (
+                      <tr key={track.id}>
+                        <td>{i + 1}</td>
+                        <td>{track.title}</td>
+                        <td>{track.artist.name}</td>
+                        <td>{`${Math.floor(track.duration/60)}:${track.duration%60 < 10 ? `0` : ``}${track.duration%60}`}</td>
+                        <td>{new Date(album.release_date).getFullYear()}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+            </table>
+          </>
+      }
     </StyledAlbum>
   )
 }

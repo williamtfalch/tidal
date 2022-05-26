@@ -23,6 +23,7 @@ export const appSlice = createSlice({
     },
     setArtist: (state, action: PayloadAction<IArtist | undefined>) => {
       state.artist = action.payload
+      state.album  = undefined
     },
     setAlbum: (state, action: PayloadAction<IAlbum | undefined>) => {
       state.album = action.payload

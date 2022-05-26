@@ -1,11 +1,8 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query/react";
 import styled from "styled-components"
-import { IAlbum } from '../api/deezer'
-
-interface IDiscographyProps {
-  query:string,
-  onAlbumClick: (album:IAlbum) => void,
-  results: IAlbum[]
-}
+import { IAlbum, useGetAlbumsQuery } from '../api/deezer'
+import { setAlbum } from "../appSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 const StyledDiscography = styled.div`
   display: flex;
@@ -65,21 +62,34 @@ const StyledDiscography = styled.div`
   }
 `;
 
-function Discography({query, onAlbumClick, results}:IDiscographyProps) {
+function Discography() {
+  const dispatch                   = useAppDispatch()
+  const artist                     = useAppSelector((state) => state.app.artist)
+  const { data, isLoading, error } = useGetAlbumsQuery(artist ? artist.id : skipToken)
+
+  function onAlbumClick(a:IAlbum) {
+    dispatch(setAlbum(a))
+  }
+  
   return (
     <StyledDiscography>
-      <h4>{`Search results for "${query}"`}</h4>
-      <h4>ALBUMS</h4>
-      <div>
-        {
-          results.map(result => (
-            <div key={result.id} onClick={() => onAlbumClick(result)}>
-              <img alt="album cover" src={result.cover_medium}></img>
-              <h5>{result.title}</h5>
+      {
+        artist && data &&
+          <>
+            <h4>{`Search results for "${artist.name}"`}</h4>
+            <h4>ALBUMS</h4>
+            <div>
+              {
+                (data as unknown as IAlbum[]).map(result => (
+                  <div key={result.id} onClick={() => onAlbumClick(result)}>
+                    <img alt="album cover" src={result.cover_medium}></img>
+                    <h5>{result.title}</h5>
+                  </div>
+                ))
+              }
             </div>
-          ))
-        }
-      </div>
+          </>
+      }
     </StyledDiscography>
   )
 }

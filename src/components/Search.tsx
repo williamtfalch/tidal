@@ -1,14 +1,10 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query/react";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components"
-import { IArtist } from '../api/deezer'
-
-interface ISearchProps {
-  query: string,
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  onSearchClick: () => void,
-  onResultClick: (artist:IArtist) => void,
-  results: IArtist[]
-}
+import { IArtist, useGetArtistsQuery } from '../api/deezer'
+import { setAlbum, setArtist, setQuery } from "../appSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import LoadingIcon from "./LoadingIcon";
 
 const StyledSearch = styled.div`
   display: flex;
@@ -42,6 +38,7 @@ const StyledSearch = styled.div`
     width: 122px;
     background-color: #00FFFF;
     color: #303030;
+    cursor: pointer;
   }
 
   span {
@@ -60,42 +57,51 @@ const StyledSearch = styled.div`
   }
 `;
 
-function Search({query, onInputChange, onResultClick, onSearchClick, results}:ISearchProps) {
+function Search() {
   const [displaySearchResults, setDisplaySearchResults] = useState<boolean>(true)
-  const inputRef                                        = useRef(null)
+  const dispatch                                        = useAppDispatch()
+  const query                                           = useAppSelector((state) => state.app.query)
+  const { data, isLoading, error}                       = useGetArtistsQuery(query ? query : skipToken)
 
-  function _onResultClick(artistId:number) {
-    onResultClick(artistId)
+  function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const q = e.target.value
+    
+    dispatch(setQuery(q))
+    setDisplaySearchResults(true)
+  }
+
+  function onSearchResultClick(a:IArtist) {
+    dispatch(setQuery(a.name))
+    dispatch(setArtist(a))
     setDisplaySearchResults(false)
   }
-
-  function onInputBlur() {
-    //setDisplaySearchResults(false)
-  }
-
-  useEffect(() => {
-    setDisplaySearchResults(true)
-  }, [results])
-  
 
   return (
     <StyledSearch>
       <div>
-        <input onChange={onInputChange} placeholder="Search here" ref={inputRef} onBlur={() => onInputBlur()} value={query} />
+        <input onChange={onInputChange} placeholder="Search here" value={query} />
 
         {
-          query && displaySearchResults && results.length > 0 &&
+          query && displaySearchResults &&
             <div>
               <span>Search results</span>
-              <ul>
-                {
-                  results.map(result => <li key={result.name} onClick={() => _onResultClick(result)}>{result.name}</li>)
-                }
-              </ul>
+              {
+                isLoading &&
+                  <LoadingIcon />
+              }
+
+              {
+                data &&
+                  <ul>
+                    {
+                      (data as unknown as IArtist[]).map(result => <li key={result.name} onClick={() => onSearchResultClick(result)}>{result.name}</li>)
+                    }
+                </ul>
+              }
             </div>
         }
       </div>
-      <button onClick={onSearchClick}>SEARCH</button>
+      <button onClick={() => console.log("Instructions unclear, must. do. something.")}>SEARCH</button>
     </StyledSearch>
   )
 }
