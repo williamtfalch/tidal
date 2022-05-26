@@ -74,6 +74,7 @@ export const deezerApi = createApi({
     prepareHeaders: (headers, { getState }) => {
       headers.set('Access-Control-Allow-Origin', '*')
       headers.set('Content-Type', 'text/plain;charset=UTF-8')
+      headers.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
       
       return headers
     }
