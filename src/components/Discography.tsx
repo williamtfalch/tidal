@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { IAlbum, useGetAlbumsQuery } from '../api/deezer'
 import { setAlbum } from "../appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import LoadingIcon from "./LoadingIcon";
 
 const StyledDiscography = styled.div`
   display: flex;
@@ -74,20 +75,28 @@ function Discography() {
   return (
     <StyledDiscography>
       {
-        artist && data &&
+        artist &&
           <>
             <h4>{`Search results for "${artist.name}"`}</h4>
             <h4>ALBUMS</h4>
-            <div>
-              {
-                (data as unknown as IAlbum[]).map(result => (
-                  <div key={result.id} onClick={() => onAlbumClick(result)}>
-                    <img alt="album cover" src={result.cover_medium}></img>
-                    <h5>{result.title}</h5>
-                  </div>
-                ))
-              }
-            </div>
+            {
+              isLoading &&
+                <LoadingIcon />
+            }
+
+            {
+              data &&
+                <div>
+                  {
+                    (data as unknown as IAlbum[]).map(result => (
+                      <div key={result.id} onClick={() => onAlbumClick(result)}>
+                        <img alt="album cover" src={result.cover_medium}></img>
+                        <h5>{result.title}</h5>
+                      </div>
+                    ))
+                  }
+              </div>
+            }
           </>
       }
     </StyledDiscography>

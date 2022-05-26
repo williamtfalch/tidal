@@ -175,7 +175,7 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 15px;
   }
 
-  button, span, p, a{
+  button, span, p, a {
     font-size: 14px;
   }
 
