@@ -25,7 +25,6 @@ const StyledAlbum = styled.div`
   table {
     border-collapse: collapse;
     text-align: left;
-    overflow:scroll;
   
     thead {
       color: white;
@@ -36,20 +35,22 @@ const StyledAlbum = styled.div`
       background-color: #505050;
       color: #bbb;
       border-left: 142px solid #505050;
-      box-shadow: 1px 1px 1px 1px #505050;
-      border-radius: 2px;
     }
 
     td, th {
       padding: 8px 5px;
     }
 
-    td {
+    tr {
       border-bottom: 1px solid #303030;
     }
 
     td:first-of-type {
       width: 30px;
+    }
+
+    tr:last-of-type {
+      border-bottom: none;
     }
   }
 `;
