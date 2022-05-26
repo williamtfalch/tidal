@@ -21,11 +21,11 @@ const StyledDiscography = styled.div`
     color: #00b2b2;
   }
 
-  div, h4:last-of-type {
+  .discographyAlbumsContainer, h4:last-of-type {
     margin-left: 10px;
   }
   
-  div {
+  .discographyAlbumsContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -86,7 +86,7 @@ function Discography() {
 
             {
               data &&
-                <div>
+                <div className="discographyAlbumsContainer">
                   {
                     (data as unknown as IAlbum[]).map(result => (
                       <div key={result.id} onClick={() => onAlbumClick(result)}>

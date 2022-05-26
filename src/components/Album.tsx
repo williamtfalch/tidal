@@ -1,8 +1,7 @@
-import { skipToken } from "@reduxjs/toolkit/dist/query/react";
-import { useRef } from "react";
+import { skipToken } from "@reduxjs/toolkit/dist/query/react"
 import styled from "styled-components"
-import { ITrack, IAlbum, useGetAlbumTrackListQuery } from '../api/deezer'
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { ITrack, useGetAlbumTrackListQuery } from '../api/deezer'
+import { useAppSelector } from "../hooks";
 import LoadingIcon from "./LoadingIcon";
 
 const StyledAlbum = styled.div`
@@ -37,6 +36,8 @@ const StyledAlbum = styled.div`
       background-color: #505050;
       color: #bbb;
       border-left: 142px solid #505050;
+      box-shadow: 1px 1px 1px 1px #505050;
+      border-radius: 2px;
     }
 
     td, th {

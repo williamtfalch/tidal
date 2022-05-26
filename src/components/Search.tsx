@@ -1,8 +1,8 @@
 import { skipToken } from "@reduxjs/toolkit/dist/query/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components"
 import { IArtist, useGetArtistsQuery } from '../api/deezer'
-import { setAlbum, setArtist, setQuery } from "../appSlice";
+import { setArtist, setQuery } from "../appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import LoadingIcon from "./LoadingIcon";
 
@@ -11,14 +11,14 @@ const StyledSearch = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  > div {
+  > .searchInputContainer {
     position: relative;
-  }
 
-  > div > div {
-    position: absolute;
-    top: 45px;
-    padding: 15px 10px;
+    > div {
+      position: absolute;
+      top: 45px;
+      padding: 15px 10px;
+    }
   }
 
   input, button {
@@ -78,7 +78,7 @@ function Search() {
 
   return (
     <StyledSearch>
-      <div>
+      <div className="searchInputContainer">
         <input onChange={onInputChange} placeholder="Search here" value={query} />
 
         {
