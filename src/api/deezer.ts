@@ -70,11 +70,10 @@ interface IAlbumTrackListQuery {
 export const deezerApi = createApi({
   reducerPath: 'deezerApi',
   baseQuery: fetchBaseQuery({ 
-    baseUrl: 'https://api.deezer.com/',
+    baseUrl: 'https://cors-anywhere.herokuapp.com/https://api.deezer.com/',
     prepareHeaders: (headers, { getState }) => {
       headers.set('Access-Control-Allow-Origin', '*')
       headers.set('Content-Type', 'text/plain;charset=UTF-8')
-      headers.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
       
       return headers
     }
