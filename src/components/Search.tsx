@@ -64,13 +64,9 @@ function Search({query, onInputChange, onResultClick, onSearchClick, results}:IS
   const [displaySearchResults, setDisplaySearchResults] = useState<boolean>(true)
   const inputRef                                        = useRef(null)
 
-  function _onResultClick(artistId:number) {
-    onResultClick(artistId)
+  function _onResultClick(artist:IArtist) {
+    onResultClick(artist)
     setDisplaySearchResults(false)
-  }
-
-  function onInputBlur() {
-    //setDisplaySearchResults(false)
   }
 
   useEffect(() => {
@@ -81,7 +77,7 @@ function Search({query, onInputChange, onResultClick, onSearchClick, results}:IS
   return (
     <StyledSearch>
       <div>
-        <input onChange={onInputChange} placeholder="Search here" ref={inputRef} onBlur={() => onInputBlur()} value={query} />
+        <input onChange={onInputChange} placeholder="Search here" ref={inputRef} value={query} />
 
         {
           query && displaySearchResults && results.length > 0 &&

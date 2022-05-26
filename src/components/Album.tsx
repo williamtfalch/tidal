@@ -28,7 +28,6 @@ const StyledAlbum = styled.div`
   table {
     border-collapse: collapse;
     text-align: left;
-    overflow:scroll;
   
     thead {
       color: white;
@@ -45,8 +44,12 @@ const StyledAlbum = styled.div`
       padding: 8px 5px;
     }
 
-    td {
+    tr {
       border-bottom: 1px solid #303030;
+    }
+
+    tr:last-of-type {
+      border-bottom: none;
     }
 
     td:first-of-type {
