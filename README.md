@@ -1,4 +1,4 @@
-# tidal
+# Tidal home assignment
 
 ## Implementations
 I added two implementations, one using a hoc-ish system, aptly named hocish. The other utilizes the modern approach of rtk query with all its benefits.
@@ -8,4 +8,5 @@ I added two implementations, one using a hoc-ish system, aptly named hocish. The
 - Universal design
 - Use color theme for color management
 - Error handling
-- Handle situations where res includes more than 5 (limit) results with regard to artist search and album list
+- Handle pagination where res includes more than 5 results with regard to artist search and album list
+- Responsive css
