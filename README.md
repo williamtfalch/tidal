@@ -1,5 +1,10 @@
 # Tidal home assignment
 
+## To run
+
+1) npm install
+2) npm run dev
+
 ## Implementations
 I added two implementations, one using a hoc-ish system, aptly named hocish. The other utilizes the modern approach of rtk query with all its benefits.
 
